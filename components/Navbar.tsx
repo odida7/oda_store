@@ -6,11 +6,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
+import useCart from "@/lib/hooks/useCart";
 
 const Navbar = () => {
   const pathname = usePathname();
   const { user } = useUser();
   const router = useRouter();
+  const cart = useCart();
+
 
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
@@ -51,7 +54,7 @@ const Navbar = () => {
           className="flex items-center gap-3 border rounded-lg px-2 py-1 hover:bg-black hover:text-white max-md:hidden"
         >
           <ShoppingCart />
-          <p className="text-base-bold">Cart (0)</p>
+          <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
         </Link>
 
         {user && (
@@ -90,7 +93,7 @@ const Navbar = () => {
               className="flex items-center gap-3 border rounded-lg px-2 py-1 hover:bg-black hover:text-white"
             >
               <ShoppingCart />
-              <p className="text-base-bold">Cart (0)</p>
+              <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
             </Link>
           </div>
         )}
