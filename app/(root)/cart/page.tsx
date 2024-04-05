@@ -37,8 +37,8 @@ const Cart = () => {
         window.location.href = data.url;
         console.log(data);
       }
-    } catch (err) {
-      console.log("[checkout_POST]", err);
+    } catch (err: any) {
+      console.log("[checkout_POST]", err.message);
     }
   };
 
@@ -102,7 +102,7 @@ const Cart = () => {
               </div>
             ))}
           </div>
-        )}
+        )} 
       </div>
 
       <div className="w-1/3 max-lg:w-full flex flex-col gap-8 bg-grey-1 rounded-lg px-4 py-5">
