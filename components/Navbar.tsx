@@ -1,21 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import useCart from "@/lib/hooks/useCart";
+
+import { UserButton, useUser } from "@clerk/nextjs";
+import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
-import useCart from "@/lib/hooks/useCart";
+import { useState } from "react";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const { user } = useUser();
   const router = useRouter();
+  const { user } = useUser();  
   const cart = useCart();
 
-
   const [dropdownMenu, setDropdownMenu] = useState(false);
+  const [query, setQuery] = useState("");
 
   return (
     <div className="sticky top-0 z-10 py-2 px-10 flex gap-2 justify-between items-center bg-white max-sm:px-2">
@@ -26,7 +27,9 @@ const Navbar = () => {
       <div className="flex gap-4 text-base-bold max-lg:hidden">
         <Link
           href="/"
-          className={`hover:text-red-1 ${pathname === "/" && "text-red-1"}`}
+          className={`hover:text-red-1 ${
+            pathname === "/" && "text-red-1"
+          }`}
         >
           Home
         </Link>
@@ -48,6 +51,22 @@ const Navbar = () => {
         </Link>
       </div>
 
+      <div className="flex gap-3 border border-grey-2 px-3 py-1 items-center rounded-lg">
+        <input
+          className="outline-none max-sm:max-w-[120px]"
+          placeholder="Search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button
+          disabled={query === ""}
+          onClick={() => router.push(`/search/${query}`)}
+          
+        >
+          <Search className="cursor-pointer h-4 w-4 hover:text-red-1 bg-gray-200" />
+        </button>
+      </div>
+
       <div className="relative flex gap-3 items-center">
         <Link
           href="/cart"
@@ -57,34 +76,25 @@ const Navbar = () => {
           <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
         </Link>
 
-        {user && (
-          <Menu
-            className="cursor-pointer"
-            onClick={() => setDropdownMenu(!dropdownMenu)}
-          />
-        )}
+        <Menu
+          className="cursor-pointer lg:hidden"
+          onClick={() => setDropdownMenu(!dropdownMenu)}
+        />
 
         {dropdownMenu && (
           <div className="absolute top-12 right-5 flex flex-col gap-4 p-3 rounded-lg border bg-white text-base-bold lg:hidden">
-            <Link
-              href="/"
-              className={`hover:text-red-1 ${pathname === "/" && "text-red-1"}`}
-            >
+            <Link href="/" className="hover:text-red-1">
               Home
             </Link>
             <Link
               href={user ? "/wishlist" : "/sign-in"}
-              className={`hover:text-red-1 ${
-                pathname === "/wishlist" && "text-red-1"
-              }`}
+              className="hover:text-red-1"
             >
               Wishlist
             </Link>
             <Link
               href={user ? "/orders" : "/sign-in"}
-              className={`hover:text-red-1 ${
-                pathname === "/orders" && "text-red-1"
-              }`}
+              className="hover:text-red-1"
             >
               Orders
             </Link>
