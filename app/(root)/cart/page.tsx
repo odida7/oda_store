@@ -67,7 +67,7 @@ const Cart = () => {
                   <Image
                     src={cartItem.item.media[0]}
                     width={100}
-                    height={100}
+                    height={100}    
                     className="rounded-lg w-32 h-32 object-cover"
                     alt="product"
                   />
