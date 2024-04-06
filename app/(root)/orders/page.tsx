@@ -29,7 +29,7 @@ const Orders = async () => {
 
             <div className="flex flex-col gap-5">
               {order.products.map((orderItem: OrderItemType) => (
-                <div className="flex gap-4">
+                <div key={orderItem._id} className="flex gap-4">
                   <Image
                     src={orderItem.product.media[0]}
                     alt={orderItem.product.title}

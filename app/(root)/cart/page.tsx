@@ -63,7 +63,7 @@ const Cart = () => {
 
             {cart.cartItems.map((cartItem) => (
               <div className="w-full flex max-sm:flex-col max-sm:gap-3 hover:bg-grey-1 px-4 py-3 items-center max-sm:items-start justify-between">
-                <div className="flex items-center">
+                <div key={cartItem.item._id} className="flex items-center">
                   <Image
                     src={cartItem.item.media[0]}
                     width={100}
